@@ -19,7 +19,7 @@ tags: [Sommersemester2026, Softwareentwicklung, Übung05]
 
 -->
 
-[![LiaScript Course](https://raw.githubusercontent.com/LiaScript/LiaScript/master/badges/course.svg)](https://liascript.github.io/course/?https://raw.githubusercontent.com/Ifi-Softwareentwicklung-SoSe2026/exercise_05/refs/heads/main/README.md)
+[![LiaScript Course](https://raw.githubusercontent.com/LiaScript/LiaScript/master/badges/course.svg)](https://liascript.github.io/course/?https://raw.githubusercontent.com/Ifi-Softwareentwicklung-SoSe2026/exercise-05-Zapdos333/refs/heads/main/README.md)
 
 # Aufgabe 05
 
@@ -136,4 +136,72 @@ Kevin ersetzt den folgenden Platzhalter mit einem LiaScript-kompatiblen PlantUML
 - [plantUml Editor](https://pantuml.com)
 - paste and copy your code! Mit Reloads verlieren Sie Ihre Eingaben, daher vorher sichern!
 
-<!-- kevin:uml-diagram -->
+<!-- kevin-uml:start -->
+```text @plantUML
+@startuml
+skinparam classAttributeIconSize 0
+
+class Gruppe {
+    - name: String
+    - teams: List<Mannschaft>
+}
+
+class Mannschaft {
+    - name: String
+}
+
+class Spiel {
+    - spielId: String
+    - datum: Date
+    - uhrzeit: Time
+    - ergebnis: Spielergebnis
+    - quotes: Map<String, decimal>
+    + setErgebnis(ergebnis: Spielergebnis): void
+}
+
+class Spielergebnis {
+    - toreHeim: int
+    - toreAuswaerts: int
+    + toString(): String
+}
+
+class Benutzer {
+    - name: String
+    - guthaben: decimal
+    + setGuthaben(amount: decimal): void
+}
+
+class Wette {
+    - wettTyp: String
+    - quote: decimal
+    - einsatz: decimal
+    - istAusgewertet: boolean
+    + auswerten(ergebnis: Spielergebnis): decimal
+}
+
+class PersistenceManager {
+    + {static} saveTournament(data: TournamentData): void
+    + {static} loadTournament(): TournamentData
+    + {static} saveBets(bets: List<Wette>): void
+    + {static} loadBets(): List<Wette>
+}
+
+class TournamentData {
+    - gruppen: List<Gruppe>
+    - spiele: List<Spiel>
+}
+
+Gruppe "1" *-- "*" Mannschaft : enthält
+Spiel "*" o-- "2" Mannschaft : beteiligt (Heim/Auswärts)
+Spiel "1" *-- "1" Spielergebnis : hat
+Wette "*" o-- "1" Benutzer : platziert von
+Wette "*" o-- "1" Spiel : bezieht sich auf
+PersistenceManager ..> TournamentData : verwaltet
+PersistenceManager ..> Wette : verwaltet
+
+note right of Spiel : quotes Map: Wett-Typ -> Gewinnfaktor
+
+@enduml
+```
+@plantUML.eval(png)
+<!-- kevin-uml:end -->
