@@ -199,7 +199,7 @@ Wette "*" o-- "1" Spiel : bezieht sich auf
 PersistenceManager ..> TournamentData : verwaltet
 PersistenceManager ..> Wette : verwaltet
 
-note right of PersistenceManager : Implementiert statische JSON-Speicherung
+note right of Spiel : quotes Map: Wett-Typ -> Gewinnfaktor
 
 @enduml
 ```
