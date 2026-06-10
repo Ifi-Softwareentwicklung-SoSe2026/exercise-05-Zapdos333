@@ -154,35 +154,36 @@ class Spiel {
     - spielId: String
     - datum: Date
     - uhrzeit: Time
-    - ergebnis: String
-    - quotes: List<Wettquote>
-    + setErgebnis(ergebnis: String): void
+    - ergebnis: Spielergebnis
+    - quotes: Map<String, decimal>
+    + setErgebnis(ergebnis: Spielergebnis): void
 }
 
-class Wettquote {
-    - wettTyp: String
-    - quote: double
+class Spielergebnis {
+    - toreHeim: int
+    - toreAuswaerts: int
+    + toString(): String
 }
 
 class Benutzer {
     - name: String
-    - guthaben: double
-    + updateGuthaben(amount: double): void
+    - guthaben: decimal
+    + setGuthaben(amount: decimal): void
 }
 
 class Wette {
     - wettTyp: String
-    - quote: double
-    - einsatz: double
+    - quote: decimal
+    - einsatz: decimal
     - istAusgewertet: boolean
-    + auswerten(ergebnis: String): double
+    + auswerten(ergebnis: Spielergebnis): decimal
 }
 
 class PersistenceManager {
-    + saveTournament(data: TournamentData): void
-    + loadTournament(): TournamentData
-    + saveBets(bets: List<Wette>): void
-    + loadBets(): List<Wette>
+    + {static} saveTournament(data: TournamentData): void
+    + {static} loadTournament(): TournamentData
+    + {static} saveBets(bets: List<Wette>): void
+    + {static} loadBets(): List<Wette>
 }
 
 class TournamentData {
@@ -192,13 +193,13 @@ class TournamentData {
 
 Gruppe "1" *-- "*" Mannschaft : enthält
 Spiel "*" o-- "2" Mannschaft : beteiligt (Heim/Auswärts)
-Spiel "1" *-- "*" Wettquote : bietet
+Spiel "1" *-- "1" Spielergebnis : hat
 Wette "*" o-- "1" Benutzer : platziert von
 Wette "*" o-- "1" Spiel : bezieht sich auf
 PersistenceManager ..> TournamentData : verwaltet
 PersistenceManager ..> Wette : verwaltet
 
-note right of PersistenceManager : Implementiert JSON-Speicherung
+note right of PersistenceManager : Implementiert statische JSON-Speicherung
 
 @enduml
 ```
