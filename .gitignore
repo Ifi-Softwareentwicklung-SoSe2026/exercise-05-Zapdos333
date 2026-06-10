@@ -72,3 +72,6 @@ obj/
 *.csv
 *.json
 !.github/classroom-agent.json
+
+# idea (rider)
+.idea/
